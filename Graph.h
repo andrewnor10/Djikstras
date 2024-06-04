@@ -2,33 +2,50 @@
 #define Graph_H
 
 #include <vector>
+#include <list>
+#include <iostream>
+#include <queue>
+
+
+
+class Edge {
+public:
+    int sourceVertex;
+	int destinationVertex;
+	int weight;
+  
+	Edge(int d, int w) : destinationVertex(d), weight(w) {}
+
+};
 
 class Vertex {
 public:
     int value;
     int weight;
     Vertex(int v, int w) : value(v), weight(w) {}
-};
-class Edge {
-    Vertex v1;
-    Vertex v2;
-    Edge(Vertex v1, Vertex v2) : v1(v1), v2(v2) {};
 
+    std::vector<Edge> edges;
 };
 
 class Graph // Dijkstra's Algorithm
 {
 public:
     Graph(int numVertices);
+    Graph();
     ~Graph();
     void addEdge(int sourceVertex, int destinationVertex, int weight);
+    void addVertex(int value, int weight);
+    void removeEdge(int sourceVertex, int destinationVertex);
+    void removeVertex(int value);
     void dijkstra(int sourceVertex);
-    void printSolution(std::vector<int>& distances, int numVertices);
-    bool adjacent(sourceVertex, destinationVertex);
-    int minDistance(const std::vector<int>& distances, const std::vector<bool>& shortestPathTreeSet, int numVertices);
+    bool adjacent(int sourceVertex, int destinationVertex);
+    void calculatePaths(int sourceVertex);
+
 
 private:
     int numVertices;
+    std::vector<int> distances;
+    std::list<std::pair<int,int>>* adjList;
     std::vector<std::vector<Vertex>> graph;
 };
 
