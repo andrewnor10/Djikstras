@@ -24,17 +24,34 @@ Graph::Graph()
 
 void Graph::addEdge(int SourceVertex, int DestinationVertex, int weight)
 {
+    if (DestinationVertex > numVertices)
+	{
+		cout << "Invalid vertex" << endl;
+		return;
+	}
+    if (adjList == nullptr)
+    {
+        numVertices = SourceVertex + 1;
+		adjList = new list<pair<int, int>>[numVertices];
+	}
     adjList[SourceVertex].push_back({DestinationVertex, weight});
     adjList[DestinationVertex].push_back({SourceVertex, weight});
 }
 
 void Graph::addVertex(int vertex, int weight)
 {
-    adjList[vertex].push_back({ vertex, weight });
+    if (adjList == nullptr)
+	{
+        numVertices = vertex + 1;
+		adjList = new list<pair<int, int>>[numVertices];
+	}
+   
     if (vertex > numVertices)
     {
-        numVertices = vertex;
+        adjList->resize(vertex + 1);
+        numVertices = vertex + 1;
     }
+    adjList[vertex].push_back({ vertex, weight });
 }
 
 void Graph::removeVertex(int vertex)
